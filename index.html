@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Romma perdonameee</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background: #d15679; /* rojo vino */
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      overflow: hidden;
+
+      /* 👇 centrado absoluto */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: none;
+      padding: 30px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      animation: fadeIn 0.8s ease;
+      max-width: 600px;
+      width: 90%;
+      margin: auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .active {
+      display: block;
+    }
+
+    h1, p {
+      color: #fff;
+      text-shadow: 2px 2px 6px #000;
+    }
+
+    .btn a {
+      display: inline-block;
+      padding: 12px 25px;
+      margin: 10px;
+      background: #ac0630;
+      color: white;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn a:hover {
+      background: white;
+      color: #4b0e1f;
+      transform: scale(1.1);
+    }
+
+    #btn-random {
+      position: relative;
+    }
+
+    .gif-img {
+      max-width: 250px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+    }
+
+    /* Animación */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95);}
+      to { opacity: 1; transform: scale(1);}
+    }
+
+    /* corazones cayendo */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .heart {
+      position: absolute;
+      top: -10px;
+      color: #ff3366;
+      font-size: 24px;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="container active" id="pantalla1">
+    <img src="img/meper.jpg" class="gif-img" alt="gif" />
+    <h1> ME PERD0 AS¿ 💔</h1>
+    <p>Perdón por decir cosas sin pensar, no son cosas que en verdad siento 🥺</p>
+    <div class="btn">
+      <a href="#" onclick="mostrar('pantalla3')">Sí</a>
+      <a href="#" onclick="mostrar('pantalla2')">No</a>
+    </div>
+  </div>
+
+  <div class="container" id="pantalla2">
+    <img src="img/miciela.jpg" class="gif-img" alt="gif" />
+    <h1>YAAAAA NO TE HAGAS DE ROGAR 🥺</h1>
+    <p>QUE PASA MI CIELA? NO PUEDES DECIRME QUE NO? 😌😏</p>
+    <div class="btn">
+      <a href="#" onclick="mostrar('pantalla3')">Sí</a>
+      <a id="btn-random" href="#">No</a>
+    </div>
+  </div>
+
+  <div class="container" id="pantalla3">
+    <img src="img/hermachi.jpeg" class="gif-img" alt="gif" />
+    <h1>YEEEEEI. Sabía que me perdonarias, es porque somos hermanes 🤍</h1>
+    <div class="btn">
+      <a href="#" onclick="mostrar('pantalla4')">Si somos ❤️‍🩹</a>
+    </div>
+  </div>
+
+  <div class="container" id="pantalla4">
+    <img src="img/hermagra.jpeg" class="gif-img" alt="gif" />
+    <h1>Te quiero mucho Romma ❤️💕</h1>
+    <p>Espero que me puedas disculpar 🤍</p>
+  </div>
+
+  <script>
+    function mostrar(id) {
+      document.querySelectorAll('.container').forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+
+      const btn = document.getElementById('btn-random');
+      if (btn && !btn.dataset.added) {
+        btn.addEventListener('mouseenter', randomPos);
+        btn.addEventListener('click', (e) => { e.preventDefault(); randomPos(); });
+        btn.dataset.added = true;
+      }
+    }
+
+    function randomPos() {
+      const btn = document.getElementById('btn-random');
+      const cont = document.getElementById('pantalla2');
+
+      if (!btn || !cont) return;
+
+      const bw = btn.offsetWidth;
+      const bh = btn.offsetHeight;
+      const cw = cont.clientWidth;
+      const ch = cont.clientHeight;
+
+      const x = Math.floor(Math.random() * (cw - bw));
+      const y = Math.floor(Math.random() * (ch - bh));
+
+      btn.style.position = 'absolute';
+      btn.style.left = x + 'px';
+      btn.style.top = y + 'px';
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+      document.getElementById("hearts").appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
+    }
+    setInterval(createHeart, 300);
+  </script>
+</body>
+</html>
